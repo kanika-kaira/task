@@ -209,7 +209,7 @@ export default class History extends React.Component {
                     </SideNav.Nav>
                 </SideNav>
                 <br />
-                <div style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}` }}>
+                <div style={{maxHeight:"70vh" ,overflowY:"scroll"}}> <div style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}` }}>
                     <Select
                         value={selectedOption}
                         onChange={this.handleChange}
@@ -217,113 +217,113 @@ export default class History extends React.Component {
                     />
 
                 </div>
-                <br />
-                <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
-                    <CardBody>   <h4 >Equipment Details:-</h4>
-                        <pre> {`
+                    <br />
+                    <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                        <CardBody>   <h4 >Equipment Details:-</h4>
+                            <pre> {`
                             Name : - Cold Freezer
                             Area : - 15 m
                             Select Value :- -15 degree C
                             Pressure Value :- 20 pascal`}
-                        </pre></CardBody>
-                </Card>
-                <br />
-                <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
-                    <CardBody> <h4 >Historical Data:-</h4><Table>
-                        <Row style={{ display: "flex", maxWidth: "50vw", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, }} >
-                            <Col><p> Enter Dates</p></Col>
-                            <Col style={{}} className=" text-center" >
-                                <DatePicker
-                                    selected={this.state.startDate}
-                                    onChange={this.handleChange1}
-                                />
-                            </Col>
-                            <div style={{ margin: "0 5px 0 0" }} className="" >  To </div>
+                            </pre></CardBody>
+                    </Card>
+                    <br />
+                    <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                        <CardBody> <h4 >Historical Data:-</h4><Table>
+                            <Row style={{ display: "flex", maxWidth: "50vw", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, }} >
+                                <Col><p> Enter Dates</p></Col>
+                                <Col style={{}} className=" text-center" >
+                                    <DatePicker
+                                        selected={this.state.startDate}
+                                        onChange={this.handleChange1}
+                                    />
+                                </Col>
+                                <div style={{ margin: "0 5px 0 0" }} className="" >  To </div>
 
-                            <Col className=" text-center" >
-                                <DatePicker
-                                    selected={this.state.startDate}
-                                    onChange={this.handleChange1}
-                                />
-                            </Col></Row>
-                    </Table>
-                        <div id="chartdiv" style={{ width: "25%", height: "300px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div>
-                        <Table striped >
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>1st CLMN Temp</th>
-                                    <th>Wf I Temp</th>
-                                    <th>Feed Temp</th>
-                                    <th>Wf I Cond</th>
-                                    <th>Phase Cond</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-
-
-                                <tr >
-                                    <td >HH:MM:SS</td>
-                                    <td >DEG C </td>
-                                    <td >DEG C</td>
-                                    <td> &mu;/cm </td>
-                                    <td>&mu;/cm</td>
-                                    <td></td>
-                                </tr>
-                                <tr >
-                                    <td >01:54:43</td>
-                                    <td >546.7 </td>
-                                    <td >34.8 </td>
-                                    <td> 00.55 </td>
-                                    <td>00.58</td>
-                                    <td>STABILIZATION</td>
-
-                                </tr>
-                                <tr >
-                                    <td >01:54:43</td>
-                                    <td >546.7 </td>
-                                    <td >34.8 </td>
-                                    <td> 00.55 </td>
-                                    <td>00.58</td>
-                                    <td>STABILIZATION</td>
-                                </tr>
-
-                            </tbody>
+                                <Col className=" text-center" >
+                                    <DatePicker
+                                        selected={this.state.startDate}
+                                        onChange={this.handleChange1}
+                                    />
+                                </Col></Row>
                         </Table>
-                    </CardBody></Card>
-                <br />
-                <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
-                    <CardBody><h4 >Report:-</h4>
-                        <Row>
-                            <Button color="primary" size='sm' >TODAY</Button>
-                            <Button color="success" size='sm' style={{ margin: "0 5vw" }}>WEEK</Button>
-                            <Button color="secondary" size='sm'>MONTH</Button>
-                            <Button color="info" size='sm' style={{ margin: "0 5vw" }}>QUATER</Button>
-                            <Button color="warning" size='sm'>YEAR</Button>
-                            <Button color="danger" size='sm' style={{ margin: "0 5vw" }}>YTD</Button>
-                        </Row>
-                    </CardBody>
-                    <CardBody>
+                            <div id="chartdiv" style={{ width: "25%", height: "300px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div>
+                            <Table striped >
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>1st CLMN Temp</th>
+                                        <th>Wf I Temp</th>
+                                        <th>Feed Temp</th>
+                                        <th>Wf I Cond</th>
+                                        <th>Phase Cond</th>
 
-                        <Row style={{ display: "flex", maxWidth: "50vw", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, }} >
-                            <Col><p> Enter Dates</p></Col><Col style={{}} className=" text-center" >
-                                <DatePicker
-                                    selected={this.state.startDate}
-                                    onChange={this.handleChange1}
-                                />
-                            </Col>
-                            <div style={{ margin: "0 5px 0 0" }} className="" >  To </div>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                            <Col className=" text-center" >
-                                <DatePicker
-                                    selected={this.state.startDate}
-                                    onChange={this.handleChange1}
-                                />
-                            </Col>
-                            <Col><i className="fa fa-fw fa-download" style={{ fontSize: '1.75em' }} /></Col>
-                        </Row></CardBody></Card>
-            </div >
+
+                                    <tr >
+                                        <td >HH:MM:SS</td>
+                                        <td >DEG C </td>
+                                        <td >DEG C</td>
+                                        <td> &mu;/cm </td>
+                                        <td>&mu;/cm</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr >
+                                        <td >01:54:43</td>
+                                        <td >546.7 </td>
+                                        <td >34.8 </td>
+                                        <td> 00.55 </td>
+                                        <td>00.58</td>
+                                        <td>STABILIZATION</td>
+
+                                    </tr>
+                                    <tr >
+                                        <td >01:54:43</td>
+                                        <td >546.7 </td>
+                                        <td >34.8 </td>
+                                        <td> 00.55 </td>
+                                        <td>00.58</td>
+                                        <td>STABILIZATION</td>
+                                    </tr>
+
+                                </tbody>
+                            </Table>
+                        </CardBody></Card>
+                    <br />
+                    <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                        <CardBody><h4 >Report:-</h4>
+                            <Row>
+                                <Button color="primary" size='sm' >TODAY</Button>
+                                <Button color="success" size='sm' style={{ margin: "0 5vw" }}>WEEK</Button>
+                                <Button color="secondary" size='sm'>MONTH</Button>
+                                <Button color="info" size='sm' style={{ margin: "0 5vw" }}>QUATER</Button>
+                                <Button color="warning" size='sm'>YEAR</Button>
+                                <Button color="danger" size='sm' style={{ margin: "0 5vw" }}>YTD</Button>
+                            </Row>
+                        </CardBody>
+                        <CardBody>
+
+                            <Row style={{ display: "flex", maxWidth: "50vw", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, }} >
+                                <Col><p> Enter Dates</p></Col><Col style={{}} className=" text-center" >
+                                    <DatePicker
+                                        selected={this.state.startDate}
+                                        onChange={this.handleChange1}
+                                    />
+                                </Col>
+                                <div style={{ margin: "0 5px 0 0" }} className="" >  To </div>
+
+                                <Col className=" text-center" >
+                                    <DatePicker
+                                        selected={this.state.startDate}
+                                        onChange={this.handleChange1}
+                                    />
+                                </Col>
+                                <Col><i className="fa fa-fw fa-download" style={{ fontSize: '1.75em' }} /></Col>
+                            </Row></CardBody></Card>
+                </div ></div>
 
         );
     }
