@@ -49,7 +49,7 @@ export default class History extends React.Component {
         isOpen: false,
         dropdownOpen: false,
         selectedOption: null,
-        activeTab: 1,
+        activTab: 0,
     };
     handleChange = selectedOption => {
         this.setState({ selectedOption });
@@ -71,7 +71,7 @@ export default class History extends React.Component {
 
     }
     toggleTab = tab => {
-        if (this.state.activeTab != tab) this.setState({ activTab: tab });
+        if (this.state.activTab != tab) this.setState({ activTab: tab });
     }
 
 
@@ -328,7 +328,7 @@ export default class History extends React.Component {
 
                                     onClick={() => { this.toggleTab(3); }}
                                 >
-                                   Report
+                                    Report
           </NavLink>
                             </NavItem>
                         </TabNav>
