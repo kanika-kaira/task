@@ -10,6 +10,7 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 import {
+    TabPane,
     Container,
     Col,
     Form,
@@ -22,6 +23,8 @@ import {
     CardBody,
     Table,
     Row,
+    Nav as TabNav,
+    TabContent,
     Collapse,
     Navbar,
     NavbarToggler,
@@ -46,6 +49,7 @@ export default class History extends React.Component {
         isOpen: false,
         dropdownOpen: false,
         selectedOption: null,
+        activeTab: 1,
     };
     handleChange = selectedOption => {
         this.setState({ selectedOption });
@@ -66,7 +70,9 @@ export default class History extends React.Component {
         this.setState((state, props) => { return { dropdownOpen: !state.dropdownOpen } })
 
     }
-
+    toggleTab = tab => {
+        if (this.state.activeTab != tab) this.setState({ activTab: tab });
+    }
 
 
     componentDidMount() {
@@ -78,7 +84,7 @@ export default class History extends React.Component {
         let visits = 10;
         for (let i = 1; i < 50; i++) {
             visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-            data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits });
+            data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits, test: visits / 2, fun: visits * 2 });
         }
 
         chart.data = data;
@@ -86,27 +92,94 @@ export default class History extends React.Component {
         let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
         dateAxis.renderer.grid.template.location = 0;
 
+        const temp = { value: 0, test: 0, fun: 0 }
+
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.tooltip.disabled = true;
         valueAxis.renderer.minWidth = 35;
 
-        let series = chart.series.push(new am4charts.LineSeries());
-        series.dataFields.dateX = "date";
-        series.dataFields.valueY = "value";
 
-        series.tooltipText = "{valueY.value}";
+        const colorArray = ["red", "green", "black"]
+
         chart.cursor = new am4charts.XYCursor();
 
         let scrollbarX = new am4charts.XYChartScrollbar();
-        scrollbarX.series.push(series);
+
+
+        Object.keys(temp).forEach((item, index) => {
+
+            let series = chart.series.push(new am4charts.LineSeries());
+            series.dataFields.dateX = "date";
+            series.dataFields.valueY = item
+            series.stroke = am4core.color(colorArray[index]);
+            series.fill = am4core.color(colorArray[index]);
+            series.tooltipText = "{valueY.value}";
+            scrollbarX.series.push(series);
+
+
+        })
+
         chart.scrollbarX = scrollbarX;
 
         this.chart = chart;
+
+
+
+        let chart1 = am4core.create("chart1div", am4charts.XYChart);
+
+        chart1.paddingRight = 20;
+
+        // let data1 = [];
+        // let visits = 10;
+        // for (let i = 1; i < 50; i++) {
+        //     visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+        //     data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits, test: visits / 2, fun: visits * 2 });
+        // }
+
+        chart1.data = data;
+
+        let dateAxis1 = chart1.xAxes.push(new am4charts.DateAxis());
+        dateAxis1.renderer.grid.template.location = 0;
+
+        const temp1 = { value: 0, test: 0, fun: 0 }
+
+        let valueAxis1 = chart1.yAxes.push(new am4charts.ValueAxis());
+        valueAxis1.tooltip.disabled = true;
+        valueAxis1.renderer.minWidth = 35;
+
+
+        // const colorArray = ["red", "green", "black"]
+
+        chart1.cursor = new am4charts.XYCursor();
+
+        let scrollbarX1 = new am4charts.XYChartScrollbar();
+
+
+        Object.keys(temp1).forEach((item, index) => {
+
+            let series = chart1.series.push(new am4charts.LineSeries());
+            series.dataFields.dateX = "date";
+            series.dataFields.valueY = item
+            // series.stroke = am4core.color(colorArray[index]);
+            // series.fill = am4core.color(colorArray[index]);
+            series.tooltipText = "{valueY.value}";
+            scrollbarX1.series.push(series);
+
+
+        })
+
+        chart1.scrollbarX = scrollbarX1;
+
+        this.chart1 = chart1;
+
     }
 
     componentWillUnmount() {
         if (this.chart) {
             this.chart.dispose();
+        }
+        if (this.chart1) {
+            this.chart1.dispose();
         }
     }
 
@@ -149,7 +222,10 @@ export default class History extends React.Component {
                             <NavText>
                                 User Management
             </NavText>
+
                         </NavItem>
+
+
                         <NavItem eventKey="Equipment Configuration">
                             <NavIcon>
                                 <i className="fa fa-fw fa-wrench" style={{ fontSize: '1.75em' }} />
@@ -209,7 +285,9 @@ export default class History extends React.Component {
                     </SideNav.Nav>
                 </SideNav>
                 <br />
-                <div style={{maxHeight:"70vh" ,overflowY:"scroll"}}> <div style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}` }}>
+
+
+                <div style={{ maxHeight: "70vh", overflowY: "scroll" }}> <div style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}` }}>
                     <Select
                         value={selectedOption}
                         onChange={this.handleChange}
@@ -217,14 +295,55 @@ export default class History extends React.Component {
                     />
 
                 </div>
+                    <div style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}` }}>
+                        <TabNav tabs>
+                            <NavItem>
+                                <NavLink
+
+                                    style={{ backgroundColor: `${this.state.activTab === 0 ? "green" : ""}` }}
+                                    onClick={() => { this.toggleTab(0); }}  >
+                                    Equipment Details
+                            </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    style={{ backgroundColor: `${this.state.activTab === 1 ? "green" : ""}` }}
+                                    onClick={() => { this.toggleTab(1); }}
+                                >
+                                    Historical Data
+          </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    style={{ backgroundColor: `${this.state.activTab === 2 ? "green" : ""}` }}
+
+                                    onClick={() => { this.toggleTab(2); }}
+                                >
+                                    Graph
+          </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    style={{ backgroundColor: `${this.state.activTab === 3 ? "green" : ""}` }}
+
+                                    onClick={() => { this.toggleTab(3); }}
+                                >
+                                   Report
+          </NavLink>
+                            </NavItem>
+                        </TabNav>
+
+                    </div>
+
+
                     <br />
                     <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
                         <CardBody>   <h4 >Equipment Details:-</h4>
                             <pre> {`
                             Name : - Cold Freezer
                             Area : - 15 m
-                            Select Value :- -15 degree C
-                            Pressure Value :- 20 pascal`}
+                            Select Value : - -15 degree C
+                            Pressure Value : - 20 pascal`}
                             </pre></CardBody>
                     </Card>
                     <br />
@@ -247,7 +366,11 @@ export default class History extends React.Component {
                                     />
                                 </Col></Row>
                         </Table>
-                            <div id="chartdiv" style={{ width: "25%", height: "300px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div>
+                            <Row>
+                                <Col> <div id="chartdiv" style={{ width: "30%", height: "400px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div></Col>
+                                <Col>   <div id="chart1div" style={{ width: "30%", height: "400px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div></Col>
+                            </Row>
+
                             <Table striped >
                                 <thead>
                                     <tr>

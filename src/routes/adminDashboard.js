@@ -31,6 +31,7 @@ export default class adminDashboard extends Component {
                             User Management
             </NavText>
                     </NavItem>
+                   
                     <NavItem eventKey="Equipment Configuration">
                         <NavIcon>
                             <i className="fa fa-fw fa-wrench" style={{ fontSize: '1.75em' }} />
