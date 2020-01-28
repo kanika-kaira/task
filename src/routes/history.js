@@ -523,6 +523,34 @@ export default class History extends React.Component {
                             <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
 
                                 <CardBody> <h4 >Data:-</h4>
+
+                                    <Row >
+                                        <Col lg="2">Enter Dates</Col>
+                                        <Col lg="4">
+                                            <DatePicker
+                                                selected={this.state.startDate}
+                                                onChange={this.handleChange1}
+                                                showTimeSelect
+                                                timeFormat="HH:mm"
+                                                timeIntervals={15}
+                                                timeCaption="time"
+                                                dateFormat="MMMM d, yyyy h:mm aa"
+                                            />
+                                        </Col>
+                                        <Col lg="2" >  To </Col>
+
+                                        <Col lg="4" >
+                                            <DatePicker
+                                                selected={this.state.startDate2}
+                                                onChange={this.handleChange2}
+                                                showTimeSelect
+                                                timeFormat="HH:mm"
+                                                timeIntervals={15}
+                                                timeCaption="time"
+                                                dateFormat="MMMM d, yyyy h:mm aa"
+                                            />
+                                        </Col></Row>
+<br/>
                                     <Table striped >
                                         <thead>
                                             <tr>
