@@ -129,12 +129,6 @@ export default class History extends React.Component {
 
         chart1.paddingRight = 20;
 
-        // let data1 = [];
-        // let visits = 10;
-        // for (let i = 1; i < 50; i++) {
-        //     visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-        //     data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits, test: visits / 2, fun: visits * 2 });
-        // }
 
         chart1.data = data;
 
@@ -146,9 +140,6 @@ export default class History extends React.Component {
         let valueAxis1 = chart1.yAxes.push(new am4charts.ValueAxis());
         valueAxis1.tooltip.disabled = true;
         valueAxis1.renderer.minWidth = 35;
-
-
-        // const colorArray = ["red", "green", "black"]
 
         chart1.cursor = new am4charts.XYCursor();
 
@@ -172,7 +163,48 @@ export default class History extends React.Component {
 
         this.chart1 = chart1;
 
+
+
+        let chart2 = am4core.create("chart2div", am4charts.XYChart);
+
+        chart2.paddingRight = 20;
+
+
+        chart2.data = data;
+
+        let dateAxis2 = chart2.xAxes.push(new am4charts.DateAxis());
+        dateAxis2.renderer.grid.template.location = 0;
+
+        const temp2 = { value: 0, test: 0, fun: 0 }
+
+        let valueAxis2 = chart2.yAxes.push(new am4charts.ValueAxis());
+        valueAxis2.tooltip.disabled = true;
+        valueAxis2.renderer.minWidth = 35;
+        const colorArray2 = ["black", "purple", "magenta"]
+        chart2.cursor = new am4charts.XYCursor();
+
+        let scrollbarX2 = new am4charts.XYChartScrollbar();
+
+
+        Object.keys(temp2).forEach((item, index) => {
+
+            let series = chart2.series.push(new am4charts.LineSeries());
+            series.dataFields.dateX = "date";
+            series.dataFields.valueY = item
+            series.stroke = am4core.color(colorArray2[index]);
+            series.fill = am4core.color(colorArray2[index]);
+            series.tooltipText = "{valueY.value}";
+            scrollbarX2.series.push(series);
+
+
+        })
+
+        chart2.scrollbarX = scrollbarX2;
+
+        this.chart2 = chart2;
+
     }
+
 
     componentWillUnmount() {
         if (this.chart) {
@@ -180,6 +212,9 @@ export default class History extends React.Component {
         }
         if (this.chart1) {
             this.chart1.dispose();
+        }
+        if (this.chart2) {
+            this.chart2.dispose();
         }
     }
 
@@ -302,7 +337,7 @@ export default class History extends React.Component {
 
                                     style={{ backgroundColor: `${this.state.activTab === 0 ? "green" : ""}` }}
                                     onClick={() => { this.toggleTab(0); }}  >
-                                    Equipment Details
+                                    Live Data
                             </NavLink>
                             </NavItem>
                             <NavItem>
@@ -310,7 +345,7 @@ export default class History extends React.Component {
                                     style={{ backgroundColor: `${this.state.activTab === 1 ? "green" : ""}` }}
                                     onClick={() => { this.toggleTab(1); }}
                                 >
-                                    Historical Data
+                                    Graph
           </NavLink>
                             </NavItem>
                             <NavItem>
@@ -319,7 +354,7 @@ export default class History extends React.Component {
 
                                     onClick={() => { this.toggleTab(2); }}
                                 >
-                                    Graph
+                                    History
           </NavLink>
                             </NavItem>
                             <NavItem>
@@ -328,125 +363,228 @@ export default class History extends React.Component {
 
                                     onClick={() => { this.toggleTab(3); }}
                                 >
-                                    Report
+                                    Reports
           </NavLink>
                             </NavItem>
                         </TabNav>
 
+
                     </div>
+                    <TabContent activeTab={this.state.activTab}>
+                        <TabPane tabId={0}>
 
 
-                    <br />
-                    <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
-                        <CardBody>   <h4 >Equipment Details:-</h4>
-                            <pre> {`
+                            <br />
+                            <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                                <CardBody>   <h4 >Equipment Details:-</h4>
+                                    <pre> {`
                             Name : - Cold Freezer
                             Area : - 15 m
                             Select Value : - -15 degree C
                             Pressure Value : - 20 pascal`}
-                            </pre></CardBody>
-                    </Card>
-                    <br />
-                    <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
-                        <CardBody> <h4 >Historical Data:-</h4><Table>
-                            <Row style={{ display: "flex", maxWidth: "50vw", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, }} >
-                                <Col><p> Enter Dates</p></Col>
-                                <Col style={{}} className=" text-center" >
-                                    <DatePicker
-                                        selected={this.state.startDate}
-                                        onChange={this.handleChange1}
-                                    />
-                                </Col>
-                                <div style={{ margin: "0 5px 0 0" }} className="" >  To </div>
-
-                                <Col className=" text-center" >
-                                    <DatePicker
-                                        selected={this.state.startDate}
-                                        onChange={this.handleChange1}
-                                    />
-                                </Col></Row>
-                        </Table>
-                            <Row>
-                                <Col> <div id="chartdiv" style={{ width: "30%", height: "400px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div></Col>
-                                <Col>   <div id="chart1div" style={{ width: "30%", height: "400px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div></Col>
-                            </Row>
-
-                            <Table striped >
-                                <thead>
-                                    <tr>
-                                        <th>Time</th>
-                                        <th>1st CLMN Temp</th>
-                                        <th>Wf I Temp</th>
-                                        <th>Feed Temp</th>
-                                        <th>Wf I Cond</th>
-                                        <th>Phase Cond</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                    </pre>
+                                    <br />
+                                    <Table striped >
+                                        <thead>
+                                            <tr>
+                                                <th>S.No.</th>
+                                                <th>Type</th>
+                                                <th>Zone</th>
+                                                <th>Set Value</th>
+                                                <th>Process Value</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
 
-                                    <tr >
-                                        <td >HH:MM:SS</td>
-                                        <td >DEG C </td>
-                                        <td >DEG C</td>
-                                        <td> &mu;/cm </td>
-                                        <td>&mu;/cm</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr >
-                                        <td >01:54:43</td>
-                                        <td >546.7 </td>
-                                        <td >34.8 </td>
-                                        <td> 00.55 </td>
-                                        <td>00.58</td>
-                                        <td>STABILIZATION</td>
+                                            <tr >
+                                                <td >0</td>
+                                                <td >Temperature</td>
+                                                <td >Top</td>
+                                                <td> 34</td>
+                                                <td>32</td>
+                                                
+                                            </tr>
+                                            <tr >
+                                                <td >1</td>
+                                                <td >Temperature</td>
+                                                <td >Bottom </td>
+                                                <td>34</td>
+                                                <td>36</td>
+                                                
 
-                                    </tr>
-                                    <tr >
-                                        <td >01:54:43</td>
-                                        <td >546.7 </td>
-                                        <td >34.8 </td>
-                                        <td> 00.55 </td>
-                                        <td>00.58</td>
-                                        <td>STABILIZATION</td>
-                                    </tr>
+                                            </tr>
+                                            <tr >
+                                                <td >2</td>
+                                                <td >Temperature</td>
+                                                <td >Top Left</td>
+                                                <td> 1 Bar</td>
+                                                <td>1.1 Bar</td>
+                                                
+                                            </tr>
+                                            <tr >
+                                                <td >3</td>
+                                                <td >Pressure</td>
+                                                <td >Top Left</td>
+                                                <td> 2.55 </td>
+                                                <td>1.2 Bar</td>
+                                                
+                                            </tr>
+                                            <tr >
+                                                <td >4</td>
+                                                <td >Pressure</td>
+                                                <td >Top Right</td>
+                                                <td> 1.55 </td>
+                                                <td>34</td>
+                                                
+                                            </tr>
+                                            <tr >
+                                                <td >5</td>
+                                                <td >Pressure</td>
+                                                <td >Top</td>
+                                                <td>1 Bar </td>
+                                                <td>0.78 Bar</td>
+                                                
+                                            </tr>
+                                            <tr >
+                                                <td >6</td>
+                                                <td >Middle</td>
+                                                <td >55%</td>
+                                                <td> 00.55 </td>
+                                                <td>60%</td>
+                                                
+                                            </tr>
 
-                                </tbody>
-                            </Table>
-                        </CardBody></Card>
-                    <br />
-                    <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
-                        <CardBody><h4 >Report:-</h4>
-                            <Row>
-                                <Button color="primary" size='sm' >TODAY</Button>
-                                <Button color="success" size='sm' style={{ margin: "0 5vw" }}>WEEK</Button>
-                                <Button color="secondary" size='sm'>MONTH</Button>
-                                <Button color="info" size='sm' style={{ margin: "0 5vw" }}>QUATER</Button>
-                                <Button color="warning" size='sm'>YEAR</Button>
-                                <Button color="danger" size='sm' style={{ margin: "0 5vw" }}>YTD</Button>
-                            </Row>
-                        </CardBody>
-                        <CardBody>
+                                        </tbody>
+                                    </Table>
 
-                            <Row style={{ display: "flex", maxWidth: "50vw", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, }} >
-                                <Col><p> Enter Dates</p></Col><Col style={{}} className=" text-center" >
-                                    <DatePicker
-                                        selected={this.state.startDate}
-                                        onChange={this.handleChange1}
-                                    />
-                                </Col>
-                                <div style={{ margin: "0 5px 0 0" }} className="" >  To </div>
 
-                                <Col className=" text-center" >
-                                    <DatePicker
-                                        selected={this.state.startDate}
-                                        onChange={this.handleChange1}
-                                    />
-                                </Col>
-                                <Col><i className="fa fa-fw fa-download" style={{ fontSize: '1.75em' }} /></Col>
-                            </Row></CardBody></Card>
-                </div ></div>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+
+                        <br />
+                        <TabPane tabId={1}>
+                            <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                                <CardBody> <h4 >Historical Data:-</h4>
+                                    <Row style={{ display: "flex", maxWidth: "50vw", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, }} >
+                                        <Col><p> Enter Dates</p></Col>
+                                        <Col style={{}} className=" text-center" >
+                                            <DatePicker
+                                                selected={this.state.startDate}
+                                                onChange={this.handleChange1}
+                                            />
+                                        </Col>
+                                        <div style={{ margin: "0 5px 0 0" }} className="" >  To </div>
+
+                                        <Col className=" text-center" >
+                                            <DatePicker
+                                                selected={this.state.startDate}
+                                                onChange={this.handleChange1}
+                                            />
+                                        </Col></Row>
+
+
+
+
+
+                                    <Row>
+                                        <div id="chartdiv" style={{ width: "80%", height: "400px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div>
+                                        <div id="chart1div" style={{ width: "80%", height: "400px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div>
+                                        <div id="chart2div" style={{ width: "80%", height: "400px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div>
+
+
+                                    </Row>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        <TabPane tabId={2}>
+                            <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+
+                                <CardBody> <h4 >Data:-</h4>
+                                    <Table striped >
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>1st CLMN Temp</th>
+                                                <th>Wf I Temp</th>
+                                                <th>Feed Temp</th>
+                                                <th>Wf I Cond</th>
+                                                <th>Phase Cond</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                            <tr >
+                                                <td >HH:MM:SS</td>
+                                                <td >DEG C </td>
+                                                <td >DEG C</td>
+                                                <td> &mu;/cm </td>
+                                                <td>&mu;/cm</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr >
+                                                <td >01:54:43</td>
+                                                <td >546.7 </td>
+                                                <td >34.8 </td>
+                                                <td> 00.55 </td>
+                                                <td>00.58</td>
+                                                <td>STABILIZATION</td>
+
+                                            </tr>
+                                            <tr >
+                                                <td >01:54:43</td>
+                                                <td >546.7 </td>
+                                                <td >34.8 </td>
+                                                <td> 00.55 </td>
+                                                <td>00.58</td>
+                                                <td>STABILIZATION</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </Table>
+
+                                </CardBody></Card>
+                        </TabPane>
+                        <br />
+                        <TabPane tabId={3}>
+                            <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                                <CardBody><h4 >Report:-</h4>
+                                    <Row>
+                                        <Button color="primary" size='sm' >TODAY</Button>
+                                        <Button color="success" size='sm' style={{ margin: "0 5vw" }}>WEEK</Button>
+                                        <Button color="secondary" size='sm'>MONTH</Button>
+                                        <Button color="info" size='sm' style={{ margin: "0 5vw" }}>QUATER</Button>
+                                        <Button color="warning" size='sm'>YEAR</Button>
+                                        <Button color="danger" size='sm' style={{ margin: "0 5vw" }}>YTD</Button>
+                                    </Row>
+                                </CardBody>
+                                <CardBody>
+
+                                    <Row style={{ display: "flex", maxWidth: "50vw", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, }} >
+                                        <Col><p> Enter Dates</p></Col><Col style={{}} className=" text-center" >
+                                            <DatePicker
+                                                selected={this.state.startDate}
+                                                onChange={this.handleChange1}
+                                            />
+                                        </Col>
+                                        <div style={{ margin: "0 5px 0 0" }} className="" >  To </div>
+
+                                        <Col className=" text-center" >
+                                            <DatePicker
+                                                selected={this.state.startDate}
+                                                onChange={this.handleChange1}
+                                            />
+                                        </Col>
+                                        <Col><i className="fa fa-fw fa-download" style={{ fontSize: '1.75em' }} /></Col>
+                                    </Row></CardBody></Card>
+                        </TabPane>
+                    </TabContent>
+                </div ></div >
+
 
         );
     }
