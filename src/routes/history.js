@@ -46,10 +46,12 @@ export default class History extends React.Component {
     state = {
         startDate: new Date(),
         expanded: false,
+        startDate2: new Date(),
         isOpen: false,
         dropdownOpen: false,
         selectedOption: null,
         activTab: 0,
+
     };
     handleChange = selectedOption => {
         this.setState({ selectedOption });
@@ -59,6 +61,14 @@ export default class History extends React.Component {
         console.log(date)
         this.setState({
             startDate: date,
+
+        });
+    };
+
+    handleChange2 = date => {
+        console.log(date)
+        this.setState({
+            startDate2: date,
 
         });
     };
@@ -322,7 +332,7 @@ export default class History extends React.Component {
                 <br />
 
 
-                <div style={{ maxHeight: "70vh", overflowY: "scroll" }}> <div style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}` }}>
+                <div style={{ maxHeight: "80vh", overflowY: "scroll" }}> <div style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}` }}>
                     <Select
                         value={selectedOption}
                         onChange={this.handleChange}
@@ -392,7 +402,7 @@ export default class History extends React.Component {
                                                 <th>Zone</th>
                                                 <th>Set Value</th>
                                                 <th>Process Value</th>
-                                                
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -404,7 +414,7 @@ export default class History extends React.Component {
                                                 <td >Top</td>
                                                 <td> 34</td>
                                                 <td>32</td>
-                                                
+
                                             </tr>
                                             <tr >
                                                 <td >1</td>
@@ -412,7 +422,7 @@ export default class History extends React.Component {
                                                 <td >Bottom </td>
                                                 <td>34</td>
                                                 <td>36</td>
-                                                
+
 
                                             </tr>
                                             <tr >
@@ -421,7 +431,7 @@ export default class History extends React.Component {
                                                 <td >Top Left</td>
                                                 <td> 1 Bar</td>
                                                 <td>1.1 Bar</td>
-                                                
+
                                             </tr>
                                             <tr >
                                                 <td >3</td>
@@ -429,7 +439,7 @@ export default class History extends React.Component {
                                                 <td >Top Left</td>
                                                 <td> 2.55 </td>
                                                 <td>1.2 Bar</td>
-                                                
+
                                             </tr>
                                             <tr >
                                                 <td >4</td>
@@ -437,7 +447,7 @@ export default class History extends React.Component {
                                                 <td >Top Right</td>
                                                 <td> 1.55 </td>
                                                 <td>34</td>
-                                                
+
                                             </tr>
                                             <tr >
                                                 <td >5</td>
@@ -445,7 +455,7 @@ export default class History extends React.Component {
                                                 <td >Top</td>
                                                 <td>1 Bar </td>
                                                 <td>0.78 Bar</td>
-                                                
+
                                             </tr>
                                             <tr >
                                                 <td >6</td>
@@ -453,7 +463,7 @@ export default class History extends React.Component {
                                                 <td >55%</td>
                                                 <td> 00.55 </td>
                                                 <td>60%</td>
-                                                
+
                                             </tr>
 
                                         </tbody>
@@ -468,20 +478,30 @@ export default class History extends React.Component {
                         <TabPane tabId={1}>
                             <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
                                 <CardBody> <h4 >Historical Data:-</h4>
-                                    <Row style={{ display: "flex", maxWidth: "50vw", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, }} >
-                                        <Col><p> Enter Dates</p></Col>
-                                        <Col style={{}} className=" text-center" >
+                                    <Row >
+                                        <Col lg="2">Enter Dates</Col>
+                                        <Col lg="4">
                                             <DatePicker
                                                 selected={this.state.startDate}
                                                 onChange={this.handleChange1}
+                                                showTimeSelect
+                                                timeFormat="HH:mm"
+                                                timeIntervals={15}
+                                                timeCaption="time"
+                                                dateFormat="MMMM d, yyyy h:mm aa"
                                             />
                                         </Col>
-                                        <div style={{ margin: "0 5px 0 0" }} className="" >  To </div>
+                                        <Col lg="2" >  To </Col>
 
-                                        <Col className=" text-center" >
+                                        <Col lg="4" >
                                             <DatePicker
-                                                selected={this.state.startDate}
-                                                onChange={this.handleChange1}
+                                                selected={this.state.startDate2}
+                                                onChange={this.handleChange2}
+                                                showTimeSelect
+                                                timeFormat="HH:mm"
+                                                timeIntervals={15}
+                                                timeCaption="time"
+                                                dateFormat="MMMM d, yyyy h:mm aa"
                                             />
                                         </Col></Row>
 
@@ -561,25 +581,38 @@ export default class History extends React.Component {
                                         <Button color="warning" size='sm'>YEAR</Button>
                                         <Button color="danger" size='sm' style={{ margin: "0 5vw" }}>YTD</Button>
                                     </Row>
-                                </CardBody>
-                                <CardBody>
 
-                                    <Row style={{ display: "flex", maxWidth: "50vw", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, }} >
-                                        <Col><p> Enter Dates</p></Col><Col style={{}} className=" text-center" >
+
+
+                                    <Row style={{ display: "flex", alignItems: "center", marginTop: "10vh", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, }} >
+                                        <Col lg="2">Enter Dates</Col>
+                                        <Col lg="4">
                                             <DatePicker
                                                 selected={this.state.startDate}
                                                 onChange={this.handleChange1}
+                                                showTimeSelect
+                                                timeFormat="HH:mm"
+                                                timeIntervals={15}
+                                                timeCaption="time"
+                                                dateFormat="MMMM d, yyyy h:mm aa"
                                             />
                                         </Col>
-                                        <div style={{ margin: "0 5px 0 0" }} className="" >  To </div>
+                                        <Col lg="1"> To </Col>
 
-                                        <Col className=" text-center" >
+                                        <Col lg="4" >
                                             <DatePicker
-                                                selected={this.state.startDate}
-                                                onChange={this.handleChange1}
+                                                selected={this.state.startDate2}
+                                                onChange={this.handleChange2}
+                                                showTimeSelect
+                                                timeFormat="HH:mm"
+                                                timeIntervals={15}
+                                                timeCaption="time"
+                                                dateFormat="MMMM d, yyyy h:mm aa"
                                             />
                                         </Col>
-                                        <Col><i className="fa fa-fw fa-download" style={{ fontSize: '1.75em' }} /></Col>
+                                        <Col lg="1">
+                                            <i className="fa fa-fw fa-download" style={{ fontSize: '1.75em' }} />
+                                        </Col>
                                     </Row></CardBody></Card>
                         </TabPane>
                     </TabContent>
