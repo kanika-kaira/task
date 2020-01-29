@@ -4,7 +4,9 @@ import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/rea
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select';
-
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+import html2canvas from 'html2canvas';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
@@ -38,6 +40,8 @@ import {
 
 } from 'reactstrap';
 
+const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const fileExtension = '.xlsx';
 // CSS Modules, react-datepicker-cssmodules.css
 // import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 am4core.useTheme(am4themes_animated);
@@ -51,6 +55,8 @@ export default class History extends React.Component {
         dropdownOpen: false,
         selectedOption: null,
         activTab: 0,
+        custs: [],
+        maxdata: 90,
 
     };
     handleChange = selectedOption => {
@@ -83,13 +89,50 @@ export default class History extends React.Component {
     toggleTab = tab => {
         if (this.state.activTab != tab) this.setState({ activTab: tab });
     }
+    // download = () => {
+    //     html2canvas(document.getElementById("chart4")).then(function (canvas) {
+    //         document.body.appendChild(canvas);
+    //         console.log(canvas)
+    //     });
+
+    // }
+
+    exportToCSV = (csvData, fileName) => {
+        let temp = [];
+        const NOS = Math.ceil(csvData.length / this.state.maxdata)
+
+        for (let i = 0; i < NOS; i++) {
+            temp.push(csvData.slice(this.state.maxdata * i, this.state.maxdata * (i + 1)))
+        }
+
+
+        let temp1 = []
+        let temp2 = {}
+        temp.forEach((item, index) => {
+            let ws = XLSX.utils.json_to_sheet(item)
+            let sheetName = `data${index == 0 ? "" : index}`
+            temp1.push(sheetName)
+            temp2 = { ...temp2, [sheetName]: ws }
+        })
+        const wb = { Sheets: temp2, SheetNames: temp1 };
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], { type: fileType });
+        FileSaver.saveAs(data, fileName + fileExtension);
+
+
+
+    }
+
+
+
+
+
 
 
     componentDidMount() {
         let chart = am4core.create("chartdiv", am4charts.XYChart);
-
+        // let chart4 = am4core.create("chart4", am4charts.XYChart);
         chart.paddingRight = 20;
-
         let data = [];
         let visits = 10;
         for (let i = 1; i < 50; i++) {
@@ -212,6 +255,22 @@ export default class History extends React.Component {
         chart2.scrollbarX = scrollbarX2;
 
         this.chart2 = chart2;
+
+
+        let custs = []
+        for (let i = 0; i <= 1000; i++) {
+            custs.push({
+                firstName: `first${i}`, lastName: `last${i}`,
+                email: `abc${i}@gmail.com`, address: `000${i} street city, ST`, zipcode: `0000${i}`
+            });
+        }
+        this.setState({
+            custs: custs
+        })
+        chart.exporting.menu = new am4core.ExportMenu("abc");
+        chart1.exporting.menu = new am4core.ExportMenu("abc");
+        chart2.exporting.menu = new am4core.ExportMenu("abc");
+        // FileSaver.saveAs()
 
     }
 
@@ -346,7 +405,8 @@ export default class History extends React.Component {
                                 <NavLink
 
                                     style={{ backgroundColor: `${this.state.activTab === 0 ? "green" : ""}` }}
-                                    onClick={() => { this.toggleTab(0); }}  >
+
+                                >
                                     Live Data
                             </NavLink>
                             </NavItem>
@@ -510,11 +570,15 @@ export default class History extends React.Component {
 
 
                                     <Row>
+                                        {/* <Button color="danger" size='sm' onClick={() => { this.download() }} style={{ margin: "0 5vw" }}>ss</Button> */}
+
+                                        {/* <div id="chart4" style={{ width: "80%", height: "400px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}` }} > */}
+
                                         <div id="chartdiv" style={{ width: "80%", height: "400px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div>
                                         <div id="chart1div" style={{ width: "80%", height: "400px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div>
                                         <div id="chart2div" style={{ width: "80%", height: "400px", marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}></div>
 
-
+                                        {/* </div> */}
                                     </Row>
                                 </CardBody>
                             </Card>
@@ -550,7 +614,7 @@ export default class History extends React.Component {
                                                 dateFormat="MMMM d, yyyy h:mm aa"
                                             />
                                         </Col></Row>
-<br/>
+                                    <br />
                                     <Table striped >
                                         <thead>
                                             <tr>
@@ -602,12 +666,12 @@ export default class History extends React.Component {
                             <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
                                 <CardBody><h4 >Report:-</h4>
                                     <Row>
-                                        <Button color="primary" size='sm' >TODAY</Button>
-                                        <Button color="success" size='sm' style={{ margin: "0 5vw" }}>WEEK</Button>
-                                        <Button color="secondary" size='sm'>MONTH</Button>
-                                        <Button color="info" size='sm' style={{ margin: "0 5vw" }}>QUATER</Button>
-                                        <Button color="warning" size='sm'>YEAR</Button>
-                                        <Button color="danger" size='sm' style={{ margin: "0 5vw" }}>YTD</Button>
+                                        <Button color="primary" size='sm' onClick={(e) => this.exportToCSV(this.state.custs, "file.xlsx")} >TODAY</Button>
+                                        <Button color="success" size='sm' onClick={(e) => this.exportToCSV(this.state.custs, "file.xlsx")} style={{ margin: "0 5vw" }}>WEEK</Button>
+                                        <Button color="secondary" size='sm' onClick={(e) => this.exportToCSV(this.state.custs, "file.xlsx")}>MONTH</Button>
+                                        <Button color="info" size='sm' onClick={(e) => this.exportToCSV(this.state.custs, "file.xlsx")} style={{ margin: "0 5vw" }}>QUATER</Button>
+                                        <Button color="warning" size='sm' onClick={(e) => this.exportToCSV(this.state.custs, "file.xlsx")}>YEAR</Button>
+                                        <Button color="danger" size='sm' onClick={(e) => this.exportToCSV(this.state.custs, "file.xlsx")} style={{ margin: "0 5vw" }}>YTD</Button>
                                     </Row>
 
 
