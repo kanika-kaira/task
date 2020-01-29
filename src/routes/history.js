@@ -405,7 +405,7 @@ export default class History extends React.Component {
                                 <NavLink
 
                                     style={{ backgroundColor: `${this.state.activTab === 0 ? "green" : ""}` }}
-
+                                    onClick={() => { this.toggleTab(0); }}
                                 >
                                     Live Data
                             </NavLink>
