@@ -267,10 +267,13 @@ export default class History extends React.Component {
         this.setState({
             custs: custs
         })
-        chart.exporting.menu = new am4core.ExportMenu("abc");
+        chart.exporting.menu = new am4core.ExportMenu();
+        chart.exporting.filePrefix = "chart";
         chart1.exporting.menu = new am4core.ExportMenu("abc");
+        chart1.exporting.filePrefix = "chart1";
         chart2.exporting.menu = new am4core.ExportMenu("abc");
-        // FileSaver.saveAs()
+        chart2.exporting.filePrefix = "chart2";
+      
 
     }
 
