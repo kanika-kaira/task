@@ -23,7 +23,7 @@ export default class Login extends Component {
 
     handleChange(e) {
         const { email, value } = e.target;
-        this.setState({ [email]: value });
+        // this.setState({ [email]: value });
     }
 
     handleSubmit(e) {
@@ -35,68 +35,62 @@ export default class Login extends Component {
             this.props.login(email, password);
         }
     }
-    login() {
+    
 
 
-    }
-    forgotPassword() {
+                render() {
 
-    }
+                    const { email, password, submitted } = this.state;
+                    return (
+                        <div style={{
+                            height: "90vh",
+                            display: "grid",
+                            placeContent: "center",
+                        }}> <div className="col-md-6 col-md-offset-3 border"
+                            style={{
+                                minWidth: "50vw",
 
-
-    render() {
-
-        const { email, password, submitted } = this.state;
-        return (
-            <div style={{
-                height: "90vh",
-                display: "grid",
-                placeContent: "center",
-            }}> <div className="col-md-6 col-md-offset-3 border"
-                style={{
-                    minWidth: "50vw",
-
-                }}
-            >
+                            }}
+                        >
 
 
-                    <h2 style={{
-                        color: "#ff9505",
-                        fontWeight: "bold",
-                        textAlign: 'center'
+                                <h2 style={{
+                                    color: "#ff9505",
+                                    fontWeight: "bold",
+                                    textAlign: 'center'
 
-                    }}>Login</h2>
-                    <Form name="form" onSubmit={this.handleSubmit} >
-                        <FormGroup >
-                            <Label for="exampleEmail">Email</Label>
-                            <Input type="email" name="email" id="exampleEmail" onChange={this.handleChange} />
-                            {submitted && !email &&
-                                <div>email is required</div>
-                            }
-                        </FormGroup>
-                        <FormGroup >
-                            <Label for="examplePassword">Password</Label>
-                            <Input type="password" name="password" id="examplePassword" onChange={this.handleChange} />
-                            {submitted && !password &&
-                                <div className="help-block">Password is required</div>
-                            }
-                        </FormGroup>
-                        <FormGroup >
-                            <br />
-                            <Button color="success" size='sm' onClick={this.login}>
-                                {' '}
-                                Login</Button>
-                            {this.state.forgot_password && (
-                                <Link to='/register' style={{ marginLeft: 3 }} onClick={this.forgotPassword}>forget password?</Link>
-                            )}
-                            {/* <Button color="link" >Register</Button> */}
-                            <br />
-                            <Link to='/register'>Register</Link>
+                                }}>Login</h2>
+                                <Form name="form" onSubmit={this.handleSubmit} >
+                                    <FormGroup >
+                                        <Label for="exampleEmail">Email</Label>
+                                        <Input type="email" name="email" id="exampleEmail" onChange={this.handleChange} />
+                                        {submitted && !email &&
+                                            <div>email is required</div>
+                                        }
+                                    </FormGroup>
+                                    <FormGroup >
+                                        <Label for="examplePassword">Password</Label>
+                                        <Input type="password" name="password" id="examplePassword" onChange={this.handleChange} />
+                                        {submitted && !password &&
+                                            <div className="help-block">Password is required</div>
+                                        }
+                                    </FormGroup>
+                                    <FormGroup >
+                                        <br />
+                                        <Button color="success" size='sm' onClick={this.login}>
+                                            {' '}
+                                            Login</Button>
+                                        {this.state.forgot_password && (
+                                            <Link to='/register' style={{ marginLeft: 3 }} onClick={this.forgotPassword}>forget password?</Link>
+                                        )}
+                                        {/* <Button color="link" >Register</Button> */}
+                                        <br />
+                                        <Link to='/register'>Register</Link>
 
-                        </FormGroup>
-                    </Form>
-                </div>
-            </div>
-        );
-    }
-}
+                                    </FormGroup>
+                                </Form>
+                            </div>
+                        </div>
+                    );
+                }
+            }

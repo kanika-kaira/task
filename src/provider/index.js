@@ -33,7 +33,7 @@ export const User = {
         return new Promise(function (resolve, reject) {
             const axiosInstance = createInstance();
             axiosInstance
-                .post('auth/', payload)
+                .post('/auth', payload)
                 .then(function (response) {
                     // console.log(response);
                     resolve(response.data);

@@ -6,7 +6,7 @@ import { store } from './redux/store';
 import Login from './routes/login'
 import RegisterPage from "./routes/register"
 import History from "./routes/history"
-import adminDashboard from "./routes/adminDashboard"
+import Equipment from "./routes/Equipment"
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import forgotPassword from './routes/forgotPassword';
 
@@ -18,7 +18,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path="/register" component={RegisterPage} />
-          <Route exact path="/adminDashboard" component={adminDashboard} />
+          <Route exact path="/Equipment" component={Equipment} />
           <Route exact path="/History" component={History} />
           <Route exact path="/forgotPassword" component={forgotPassword} />
 
