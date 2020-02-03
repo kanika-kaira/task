@@ -1,5 +1,6 @@
 import React from "react";
 import DatePicker from "react-datepicker";
+import { Link, NavLink as LinkNav } from "react-router-dom";
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import "react-datepicker/dist/react-datepicker.css";
@@ -273,7 +274,7 @@ export default class History extends React.Component {
         chart1.exporting.filePrefix = "chart1";
         chart2.exporting.menu = new am4core.ExportMenu("abc");
         chart2.exporting.filePrefix = "chart2";
-      
+
 
     }
 
@@ -296,7 +297,7 @@ export default class History extends React.Component {
             <div >
 
                 < div >
-                    <Navbar style={{ marginLeft: `${this.state.expanded ? "20vw" : "4vw"}`, backgroundColor: "#E0E0E0" }}>
+                    <Navbar style={{ backgroundColor: "#E0E0E0" }} >
                         <h1 style={{
                             color: "#7D0F0F",
                             fontWeight: "bold",
@@ -306,103 +307,18 @@ export default class History extends React.Component {
                     </Navbar>
                 </div >
 
-
-
-                <SideNav
-                    expanded={this.state.expanded}
-                    onToggle={(expanded) => {
-                        this.setState({ expanded });
-                        console.log(expanded)
-                    }}
-                    onSelect={(selected) => {
-                        // Add your code here
-                    }}
-
-                >
-                    <SideNav.Toggle />
-                    <SideNav.Nav defaultSelected="User Management">
-                        <NavItem eventKey="User Management">
-                            <NavIcon>
-
-                                <i className="fa fa-fw fa-user-plus" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                User Management
-            </NavText>
-
-                        </NavItem>
-
-
-                        <NavItem eventKey="Equipment Configuration">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-wrench" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Equipment Configuration
-            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="Live Data Dashboard">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-database" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Live Data Dashboard
-            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="Historical Data Dashboard">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-history" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Historical Data Dashboard
-            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="Report">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-file" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Report
-            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="Analytics">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-hourglass" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Analytics
-            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="Communication Configurations">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-mobile" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Communication Configurations
-            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="Alarm Configuration">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-clock" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Alarm Configuration
-            </NavText>
-                        </NavItem>
-                    </SideNav.Nav>
-                </SideNav>
                 <br />
 
 
-                <div style={{ maxHeight: "80vh", overflowY: "scroll" }}> <div style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}` }}>
+                <div >
                     <Select
                         value={selectedOption}
                         onChange={this.handleChange}
                         options={["Freezer", "ColdRoom", "Oven"].map(item => ({ value: item, label: item }))}
                     />
 
-                </div>
-                    <div style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}` }}>
+
+                    <div >
                         <TabNav tabs>
                             <NavItem>
                                 <NavLink
@@ -448,7 +364,7 @@ export default class History extends React.Component {
 
 
                             <br />
-                            <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                            <Card >
                                 <CardBody>   <h4 >Equipment Details:-</h4>
                                     <pre> {`
                             Name : - Cold Freezer
@@ -539,7 +455,7 @@ export default class History extends React.Component {
 
                         <br />
                         <TabPane tabId={1}>
-                            <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                            <Card >
                                 <CardBody> <h4 >Historical Data:-</h4>
                                     <Row >
                                         <Col lg="2">Enter Dates</Col>
@@ -587,7 +503,7 @@ export default class History extends React.Component {
                             </Card>
                         </TabPane>
                         <TabPane tabId={2}>
-                            <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                            <Card >
 
                                 <CardBody> <h4 >Data:-</h4>
 
@@ -666,7 +582,7 @@ export default class History extends React.Component {
                         </TabPane>
                         <br />
                         <TabPane tabId={3}>
-                            <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                            <Card >
                                 <CardBody><h4 >Report:-</h4>
                                     <Row>
                                         <Button color="primary" size='sm' onClick={(e) => this.exportToCSV(this.state.custs, "file.xlsx")} >TODAY</Button>

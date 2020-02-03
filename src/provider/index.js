@@ -1,5 +1,6 @@
 import { baseApiUrl } from '../constants/defaultValues';
 import axios from 'axios';
+import { promised } from 'q';
 
 const createInstance = function () {
     const axiosInstance = axios.create({
@@ -27,6 +28,39 @@ export const User = {
     getAssetMapLocal: () => {
         if (!localStorage.getItem('assetMap')) return null;
         return JSON.parse(localStorage.getItem('assetMap'));
+    },
+
+    addEquipment: function (payload) {
+        return new Promise(function (resolve, reject) {
+            const axiosInstance = createInstance();
+            axiosInstance
+                .post('', payload)
+                .then(function (response) {
+                    resolve(response.data);
+                })
+                .catch(function (error) {
+                    reject(error);
+
+                })
+        })
+
+
+    },
+    editEquipment: function (payload, id) {
+        return new Promise(function (resolve, reject) {
+            const axiosInstance = createInstance();
+            axiosInstance
+                .put('', payload)
+                .then(function (response) {
+                    resolve(response.data);
+                })
+                .catch(function (error) {
+                    reject(error);
+
+                })
+        })
+
+
     },
 
     login: function (payload) {

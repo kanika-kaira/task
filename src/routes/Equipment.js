@@ -2,10 +2,15 @@ import React from "react";
 import DatePicker from "react-datepicker";
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-import { Component } from 'react'
+import { Component } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import Select from 'react-select';
 import {
     TabPane,
     Container,
+    Modal,
+    ModalBody,
     Col,
     Form,
     FormGroup,
@@ -36,10 +41,11 @@ export default class Equipment extends Component {
         startDate: new Date(),
         expanded: false,
         startDate2: new Date(),
-        isOpen: false,
         dropdownOpen: false,
         selectedOption: null,
         activTab: 0,
+        isOpen: false,
+        modalType: ""
 
     }
     handleChange = selectedOption => {
@@ -61,6 +67,7 @@ export default class Equipment extends Component {
 
         });
     };
+
     toggle = () => {
         this.setState((state, props) => { return { isOpen: !state.isOpen } })
 
@@ -72,93 +79,59 @@ export default class Equipment extends Component {
     toggleTab = tab => {
         if (this.state.activTab != tab) this.setState({ activTab: tab });
     }
+    modalSubmit = (type) => {
+        if (this.state.modalType === "add") {
+
+        }
+        else {
+
+        }
+    }
+    toggleModal = (type, ) => {
+
+        this.setState({
+            isOpen: !this.state.isOpen,
+            modalType: type,
+
+
+
+        });
+    };
+    submit = () => {
+        confirmAlert({
+            title: 'Yes to remove',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => alert('Click Yes')
+                },
+                {
+                    label: 'No',
+                    onClick: () => { }
+                }
+            ]
+        })
+    };
+
 
     render() {
+        const { selectedOption } = this.state;
         return (
             <div>
-                <SideNav
-                    expanded={this.state.expanded}
-                    onToggle={(expanded) => {
-                        this.setState({ expanded });
-                        console.log(expanded)
-                    }}
-                    onSelect={(selected) => {
-                        // Add your code here
-                    }}
-                >
-                    <SideNav.Toggle />
-                    <SideNav.Nav defaultSelected="User Management">
-                        <NavItem eventKey="User Management">
-                            <NavIcon>
+                < div >
+                    <Navbar style={{ backgroundColor: "#E0E0E0" }}>
+                        <h1 style={{
+                            color: "#7D0F0F",
+                            fontWeight: "bold",
 
-                                <i className="fa fa-fw fa-user-plus" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                User Management
-            </NavText>
-                        </NavItem>
+                        }}>Equipment</h1>
+                        <NavbarToggler onClick={this.toggle} />
+                    </Navbar>
+                </div >
 
-                        <NavItem eventKey="Equipment Configuration">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-wrench" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Equipment Configuration
-            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="Live Data Dashboard">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-database" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Live Data Dashboard
-            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="Historical Data Dashboard">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-history" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Historical Data Dashboard
-            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="Report">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-file" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Report
-            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="Analytics">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-hourglass" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Analytics
-            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="Communication Configurations">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-mobile" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Communication Configurations
-            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="Alarm Configuration">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-clock" style={{ fontSize: '1.75em' }} />
-                            </NavIcon>
-                            <NavText>
-                                Alarm Configuration
-            </NavText>
-                        </NavItem>
-
-                    </SideNav.Nav>
-                </SideNav>
                 <br />
-                <div style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}` }}>
+                <div >
                     <TabNav tabs>
                         <NavItem>
                             <NavLink
@@ -192,7 +165,7 @@ export default class Equipment extends Component {
 
                 <TabContent activeTab={this.state.activTab}>
                     <TabPane tabId={0}>
-                        <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                        <Card >
                             <CardBody> <h4 >view</h4>
 
                                 <div>
@@ -303,7 +276,7 @@ export default class Equipment extends Component {
 
                     <br />
                     <TabPane tabId={1}>
-                        <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                        <Card >
                             <CardBody> <h4 >Add New Equipment:-</h4>
 
                                 <Row>
@@ -354,9 +327,224 @@ export default class Equipment extends Component {
                         </Card>
                     </TabPane>
                     <TabPane tabId={2}>
-                        <Card style={{ marginLeft: `${this.state.expanded ? "20vw" : "8vw"}`, fontSize: '1em' }}>
+                        <Card >
+                            <CardBody><Row> <Col lg="6"><h4 >Sensors:-</h4></Col>
+                                <Col lg="6"><Button color="primary" size='sm' onClick={this.toggleModal}>Add Sensor</Button>
+                                </Col> </Row>
 
-                            <CardBody> <h4 >Sensors:-</h4>
+                                <div>
+
+                                    <Table striped >
+                                        <thead>
+
+                                            <tr>
+                                                <th>Equipment Name</th>
+                                                <th>Brand</th>
+                                                <th>Area Name</th>
+                                                <th>Model</th>
+                                                <th>Edit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr >
+
+
+                                                <td>gfegfds</td>
+                                                <td>fgsgdg</td>
+                                                <td>fgsgdg</td>
+                                                <td>hgdfhg</td>
+
+                                                <td
+                                                    onClick={() => this.toggleModal('edit')}
+                                                    style={{
+                                                        color: 'blue',
+                                                        cursor: 'pointer', fontWeight: 'bold'
+                                                    }}>
+                                                    Edit
+                                </td>
+                                                <td
+                                                    onClick={this.submit}
+                                                    style={{
+                                                        color: 'blue',
+                                                        cursor: 'pointer', fontWeight: 'bold'
+                                                    }}>
+                                                    Remove
+                                </td>
+
+
+                                            </tr>
+                                            <tr >
+
+
+                                                <td>gfegfds</td>
+                                                <td>fgsgdg</td>
+                                                <td>fgsgdg</td>
+                                                <td>hgdfhg</td>
+
+                                                <td
+                                                    onClick={this.toggleModal}
+                                                    style={{
+                                                        color: 'blue',
+                                                        cursor: 'pointer', fontWeight: 'bold'
+                                                    }}>
+                                                    Edit
+                                </td>
+
+                                                < td
+                                                    onClick={this.submit}
+                                                    style={{
+                                                        color: 'blue',
+                                                        cursor: 'pointer', fontWeight: 'bold'
+                                                    }}>
+                                                    Remove
+                                </td>
+                                            </tr>
+                                            <tr >
+
+
+                                                <td>gfegfds</td>
+                                                <td>fgsgdg</td>
+                                                <td>fgsgdg</td>
+                                                <td>hgdfhg</td>
+
+                                                <td
+                                                    onClick={this.toggleModal}
+                                                    style={{
+                                                        color: 'blue',
+                                                        cursor: 'pointer', fontWeight: 'bold'
+                                                    }}>
+                                                    Edit
+                                </td>
+                                                < td
+                                                    onClick={this.submit}
+                                                    style={{
+                                                        color: 'blue',
+                                                        cursor: 'pointer', fontWeight: 'bold'
+                                                    }}>
+                                                    Remove
+                                </td>
+
+                                            </tr>
+                                            <tr >
+
+
+                                                <td>gfegfds</td>
+                                                <td>fgsgdg</td>
+                                                <td>fgsgdg</td>
+                                                <td>hgdfhg</td>
+
+                                                <td
+                                                    onClick={this.toggleModal}
+                                                    style={{
+                                                        color: 'blue',
+                                                        cursor: 'pointer', fontWeight: 'bold'
+                                                    }}>
+                                                    Edit
+                                                      </td>
+                                                < td
+                                                    onClick={this.submit}
+                                                    style={{
+                                                        color: 'blue',
+                                                        cursor: 'pointer', fontWeight: 'bold'
+                                                    }}>
+                                                    Remove
+                                </td>
+
+                                            </tr>
+
+
+                                        </tbody>
+                                    </Table>
+
+                                </div>
+                                <Modal isOpen={this.state.isOpen} style={{ marginTop: '15em' }} size='lg'
+                                    toggle={this.toggleModal}>
+                                    <ModalBody >
+                                        <Card style={{ fontSize: '1em' }}>
+                                            <CardBody> <h4 >Are You Sure:-</h4>
+                                                {/* <Col lg="6"><Button color="primary" size='sm' >Yes</Button></Col>
+
+                                                <Col lg="6"><Button color="primary" size='sm' >No</Button></Col> */}
+                                                <div className="container">
+                                                    <button onClick={this.submit}>Confirm dialog</button>
+                                                </div>
+
+                                            </CardBody>
+                                        </Card>
+
+
+                                    </ModalBody>
+                                </Modal>
+
+
+                                <Modal isOpen={this.state.isOpen} style={{ marginTop: '15em' }} size='lg'
+                                    toggle={this.toggleModal}>
+                                    <ModalBody >
+                                        <div style={{}} className="text-center">
+
+                                            <Card style={{ fontSize: '1em' }}>
+                                                <CardBody> <h4 >Add New Equipment:-</h4>
+
+                                                    <Row>
+                                                        <Col lg="6">
+                                                            <Label >Equipment:-</Label>
+                                                        </Col>
+                                                        <Col lg="6">
+                                                            <Label >Type</Label>
+                                                        </Col>
+                                                    </Row>
+
+                                                    <Row>
+                                                        <Col lg="6">
+                                                            <Select
+                                                                value={selectedOption}
+                                                                onChange={this.handleChange}
+                                                                options={["Freezer", "ColdRoom", "Oven"].map(item => ({ value: item, label: item }))}
+                                                            />
+
+                                                        </Col>
+                                                        <Col lg="6">
+                                                            <Select
+                                                                value={selectedOption}
+                                                                onChange={this.handleChange}
+                                                                options={["Freezer", "ColdRoom", "Oven"].map(item => ({ value: item, label: item }))}
+                                                            />
+
+                                                        </Col>
+                                                    </Row>
+                                                    <br />
+                                                    <Row>
+                                                        <Col lg="6">
+                                                            <Label >Set Value</Label>
+                                                        </Col>
+                                                        <Col lg="6">
+                                                            <Label >Location</Label>
+                                                        </Col>
+                                                    </Row>
+
+                                                    <Row>
+                                                        <Col lg="6">
+
+                                                            <Input name="Setvalue" placeholder="Set Value" />
+                                                        </Col>
+                                                        <Col lg="6">
+                                                            <Input name="brLocationand" placeholder="Location" />
+
+                                                        </Col>
+                                                    </Row>
+                                                    <br />
+                                                    <br />
+                                                    <div className="text-center" style={{ width: '100%' }}>
+                                                        <Button color="dark" size='sm' onClick={this.modalSubmit}> Submit </Button>
+                                                    </div>
+                                                </CardBody>
+                                            </Card>
+
+
+                                        </div>
+
+                                    </ModalBody>
+                                </Modal>
 
                             </CardBody></Card>
                     </TabPane>
