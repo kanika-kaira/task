@@ -118,7 +118,7 @@ export default class Equipment extends Component {
     render() {
         const { selectedOption } = this.state;
         return (
-            <div>
+            <div  >
                 < div >
                     <Navbar style={{ backgroundColor: "#E0E0E0" }}>
                         <h1 style={{

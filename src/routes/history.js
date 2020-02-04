@@ -294,9 +294,13 @@ export default class History extends React.Component {
     render() {
         const { selectedOption } = this.state;
         return (
-            <div >
+            <div style={{
+                      overflowX: "scroll",
+                      height: "86vh"
 
-                < div >
+            }}  >
+
+                < div  >
                     <Navbar style={{ backgroundColor: "#E0E0E0" }} >
                         <h1 style={{
                             color: "#7D0F0F",
