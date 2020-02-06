@@ -8,7 +8,7 @@ const _env = "dev";
 
 export const baseApiUrl =
     //<<<<<<< HEAD
-    _env == "prod" ? "https://api.incredso.com/" : "http://10.10.10.223:9001/";
+    _env == "prod" ? "https://api.incredso.com/" : "http://192.168.1.6:5001/";
 //=======
 // _env == "prod" ? "https://api.incredso.com/" : "http://localhost:9002/";
 //>>>>>>> b0a95b84d2e07e06eb28509b20c3700f1319cc01

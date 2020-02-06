@@ -1,4 +1,4 @@
-import { baseApiUrl } from '../constants/defaultValues';
+import { baseApiUrl } from '../constants/dafaultValues';
 import axios from 'axios';
 import { promised } from 'q';
 
@@ -16,7 +16,7 @@ export const User = {
     setUser: function (data) {
         localStorage.setItem('x-access-token', data.token);
 
-        localStorage.setItem('userInfo', JSON.stringify(data.user));
+        //localStorage.setItem('userInfo', JSON.stringify(data.user));
     },
     settempUser: function (data) {
         localStorage.setItem('tempUser', data.user._id);
@@ -28,6 +28,14 @@ export const User = {
     getAssetMapLocal: () => {
         if (!localStorage.getItem('assetMap')) return null;
         return JSON.parse(localStorage.getItem('assetMap'));
+    },
+    getUser: function (data) {
+        if(localStorage.getItem('x-access-token'))
+
+        return true
+        else{
+            return false
+        }
     },
 
     addEquipment: function (payload) {

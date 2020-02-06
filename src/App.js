@@ -11,22 +11,29 @@ import Equipment from "./routes/Equipment"
 import area from "./routes/area"
 import usermanagment from "./routes/usermanagment"
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Button, Link } from 'reactstrap';
 import forgotPassword from './routes/forgotPassword';
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import Select from 'react-select';
 
+
 function App(props) {
   const [expanded, setexpanded] = useState(false);
+  function logout() {
+    localStorage.clear();
+    window.location.href = '/'
+  }
 
   return (
     <Provider store={store}>
 
 
       <Router>
+
         <Route render={({ location, history }) => (
           <React.Fragment>
-            <SideNav
+            {(location.pathname != '/') && (<SideNav
 
               onSelect={(selected) => {
                 const to = '/' + selected;
@@ -112,8 +119,10 @@ function App(props) {
                     Alarm Configuration
             </NavText>
                 </NavItem>
+                <Button color="link" onClick={logout}>logout</Button>
+
               </SideNav.Nav>
-            </SideNav>
+            </SideNav>)}
 
 
 
@@ -129,13 +138,14 @@ function App(props) {
           </React.Fragment>
         )}
         />
+
       </Router>
       {/* <Router>
         <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/Equipment" component={Equipment} />
-          <Route exact path="/History" component={History} />
+          <Route exact path="/History" component={History} /
           <Route exact path="/forgotPassword" component={forgotPassword} />
 
         </Switch>
