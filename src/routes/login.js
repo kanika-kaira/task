@@ -1,210 +1,75 @@
-import React, { Component } from 'react'
+import React, { useState } from "react";
+// import "./Login.css";
 import {
-    Container,
-    Col,
-    Form,
-    FormGroup,
-    Label,
-    Input,
-    Button,
-    Card,
-    CardBody,
-    Alert,
-    Fragment,
+  Container, Row, Col,Form,
+  FormGroup, Label, Input,
+  Button,
+  CardHeader,
+  Card
 } from 'reactstrap';
-import { User } from "../provider/index"
-import { Link }
-    from 'react-router-dom';
-import EmailValidator from 'email-validator'
-import PasswordValidator from 'password-validator'
-import { } from "../routes/register"
-import { userInfo } from 'os';
-export default class Login extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            email: '',
-            password: '',
-            submitted: false,
-            emailValidation: true,
-            passwordValidation: true,
-            invalidPassword: false,
-            forgotPassword: false,
-        };
-
-        // this.handleChange = this.handleChange.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange = (e) => {
-        console.log('ssss', this.state)
-        if (e.target.value) {
-
-            console.log('rereer', e)
-            this.setState({
-                email: e.target.value,
-                // disabled: false
-            });
-            // const { email, password } = e.target;
-            // this.setState({ email:email,password:password });
-        }
-        else {
-            console.log('elelele')
-        }
-    }
-
-    handleChangePassword = (e) => {
-        if (e.target.value) {
-
-            console.log('rereer', e)
-            this.setState({
-                password: e.target.value,
-                // disabled: false
-            });
-            // const { email, password } = e.target;
-            // this.setState({ email:email,password:password });
-        }
-        else {
-            console.log('elelele')
-        }
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-
-        this.setState({ submitted: true });
-        const { email, password } = this.state;
-        if (email && password) {
-            this.props.login(email, password);
-        }
-    }
-    login = () => {
-        let schema = new PasswordValidator();
-        schema.
-            is().min(4).
-            is().max(16)
-        //has().lowercase().
-        // has().uppercase().
-        // has().digits()
-        //has().not().spaces()
-        // has().symbols()
-        let passwordValidation = schema.validate(this.state.password)
-        let emailValidation = EmailValidator.validate(this.state.email)
-        console.log('cdcddc', this.state.password, passwordValidation)
-        if (passwordValidation && emailValidation) {
-            let payload = {
-
-                email: this.state.email,
-                password: this.state.password
-            }
-            console.log(payload)
-
-            User.login(payload)
-                .then((res) => {
-                    console.log("login successfull", res)
-                    User.setUser(res);
-                    this.props.history.push('/usermanagment')
-
-                })
-                .catch(err => {
-                    console.log("login error", err.msg)
-                    this.setState({ invalidPassword: true, forgotPassword: true })
-                })
-
-        }
-        else {
-            console.log('erererer', emailValidation, passwordValidation)
-            this.setState({
-                emailValidation: emailValidation,
-                passwordValidation: passwordValidation,
-            })
-        }
-    }
-
-    componentDidMount = () => {
-        if (User.getUser()) {
-            this.props.history.push('/usermanagment')
-
-        }
-
-    }
-
-    render() {
-
-        const { email, password, submitted } = this.state;
-        return (
-            <div style={{
-                height: "90vh",
-                display: "grid",
-                placeContent: "center",
-            }}> <div className="col-md-6 col-md-offset-3 border"
-                style={{
-                    minWidth: "50vw",
-
-                }}
-            >
+import { useHistory } from "react-router-dom";
 
 
-                    <h2 style={{
-                        color: "#ff9505",
-                        fontWeight: "bold",
-                        textAlign: 'center'
-
-                    }}>Login</h2>
-                    <Form name="form" onSubmit={this.handleSubmit} >
-                        <FormGroup >
-                            <Label for="exampleEmail">Email</Label>
-                            <Input type="email" name="email" id="exampleEmail" onChange={this.handleChange} />
-                            {submitted && !email &&
-                                <div>email is required</div>
-                            }
-                            {(this.state.emailValidation == false) && (
-                                <div>
-                                    <Alert color='danger'>
-                                        Invalid email!
-                          </Alert>
-                                </div>
-                            )}
-                        </FormGroup>
-                        <FormGroup >
-                            <Label for="examplePassword">Password</Label>
-                            <Input type="password" name="password" id="examplePassword" onChange={this.handleChangePassword} />
-                            {submitted && !password &&
-                                <div className="help-block">Password is required</div>
-                            }
-                            {(this.state.passwordValidation == false) && (
-                                <div>
-                                    <Alert color='danger'>
-                                        Password must be atleast 8 characters with atleast 1 digit and a special character!
-                          </Alert>
-                                </div>
-                            )}
-
-                            {(this.state.invalidPassword == true) && (
-                                <div>
-                                    <Alert color='danger'>
-                                        INVALID PASSWORD
-                         </Alert>
-                                </div>
-                            )}
-                        </FormGroup>
-                        <FormGroup >
-                            <br />
-                            <Button color="success" size='sm' onClick={this.login}>
-                                {' '}
-                                Login</Button>
-                            {this.state.forgotPassword == true && (
-                                <Link to='/register' style={{ marginLeft: 3 }} onClick={this.forgotPassword}>forget password?</Link>
-                            )}
-                            {/* <Button color="link" >Register</Button> */}
-                            <br />
-                            <Link to='/register'>Register</Link>
-
-                        </FormGroup>
-                    </Form>
-                </div>
-            </div>
-        );
-    }
+const user={
+  username:"user@gmail.com",
+  password:"user123",
 }
+export default function Login(props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const history = useHistory();
+
+
+  
+
+  function validateForm() {
+    return email.length > 0 && password.length > 0;
+  }
+
+  function handleSubmit(e) {
+  
+      e.preventDefault();
+      if(email===user.username && password===user.password){ 
+       props.history.push('/App1');
+      }
+      else{
+          console.log('email or password invalid')  
+      }
+  
+  }
+
+  return (
+    <Container >
+   <center>  <Card style={{border:"1px solid blue" ,width:"40%",marginTop:"5rem"}} ><CardHeader style={{fontSize:20,fontWeight:"bold",marginBottom:"3%"}}>Sign In</CardHeader>
+  <Form onSubmit={handleSubmit}>
+      <Row  >
+        
+         <Col> <Label>Email</Label></Col>
+         <Col> <Input
+            type="email"
+            name="email"
+            id="exampleEmail"
+            placeholder="myemail@email.com"
+            onChange={(e) => setEmail(e.target.value)}
+          /></Col>
+      
+      </Row>
+      <Row>
+     
+        <Col>    <Label for="examplePassword">Password</Label></Col>
+        <Col>     <Input
+            type="password"
+            name="password"
+            id="examplePassword"
+            placeholder="********"
+            onChange={(e) => setPassword(e.target.value)}
+          /> </Col> 
+       
+      </Row>
+      <Button type='submit' color='green' onSubmit={handleSubmit}>Submit</Button>
+    </Form></Card> </center>
+  </Container>
+);
+}
+
+
