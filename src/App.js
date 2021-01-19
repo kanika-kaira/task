@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import './App.css';
-import { Provider } from 'react-redux';
-import { store } from './redux/store';
 import Login from './routes/login'
 import App1 from "./routes/App1"
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Button } from 'reactstrap';
-import SideNav, {  Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import SideNav from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 
@@ -19,7 +16,6 @@ function App(props) {
   }
 
   return (
-    <Provider store={store}>
 
 
       <Router>
@@ -66,7 +62,6 @@ function App(props) {
 
       </Router>
     
-    </Provider>
 
   );
 }

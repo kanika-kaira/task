@@ -16,14 +16,7 @@ import {
 } from 'reactstrap';
 export default class App1 extends Component {
     state = {
-        // startDate: new Date(),
-        // expanded: false,
-        // startDate2: new Date(),
-        // dropdownOpen: false,
-        // selectedOption: null,
-        // activTab: 0,
-        // isOpen: false,
-        // modalType: ""
+     
         dataFrame: [],
         dataFrame1: [] ,
         dataFrame2: [],
