@@ -4,8 +4,6 @@ import { Component } from 'react';
 import Fade from "react-reveal"
 import Background from "../img/night.jpeg";
 import 'react-confirm-alert/src/react-confirm-alert.css';
-// import { User } from "../provider/index";
-import dateFormat from 'dateformat';
 import {
     Col,
     Card,
@@ -20,11 +18,12 @@ import {
 export default class App2 extends Component {
     state = {
      
-      mode: true
+      mode: true // initial value of mode
         }
 
-
+//arrow function for changing the initial value of mode
         changemode = () => {
+         //here we are setting the state
             this.setState({
                 mode: !this.state.mode
             } ,()=>{console.log(this.state.mode)});
@@ -32,7 +31,7 @@ export default class App2 extends Component {
     
     render() 
     {
-
+//using condition to change the page mode
         if (this.state.mode === true)
         return (
           
