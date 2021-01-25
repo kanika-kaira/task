@@ -3,7 +3,6 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import './App.css';
 import Login from './routes/login'
 import App1 from "./routes/App1"
-import App2 from "./routes/App2"
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SideNav from '@trendmicro/react-sidenav';
@@ -55,7 +54,6 @@ function App(props) {
             <main style={{ marginLeft: `${expanded ? "18vw" : "5vw"}` }}>
               <Route exact path="/" component={Login} />
               <Route exact path="/App1" component={App1} />
-              {/* <Route exact path="/" component={App2} /> */}
 
 
         
