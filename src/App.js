@@ -52,7 +52,7 @@ function App(props) {
 
 
             <main style={{ marginLeft: `${expanded ? "18vw" : "5vw"}` }}>
-              <Route exact path="/" component={Login} />
+              {/* <Route exact path="/" component={Login} /> */}
               <Route exact path="/App1" component={App1} />
 
 
